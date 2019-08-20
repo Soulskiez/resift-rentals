@@ -3,7 +3,7 @@ import { createMuiTheme } from '@material-ui/core';
 import { ThemeProvider } from '@material-ui/styles';
 import { ResiftProvider } from 'resift';
 import dataService from './dataService';
-import ResiftRentals from './ResiftRentals';
+import ResiftRentals from 'components/ResiftRentals';
 
 const theme = createMuiTheme({
   typography: {

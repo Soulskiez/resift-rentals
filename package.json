@@ -33,7 +33,9 @@
     ]
   },
   "devDependencies": {
+    "express": "^4.17.1",
     "jsdom": "^15.1.1",
-    "node-fetch": "^2.6.0"
+    "node-fetch": "^2.6.0",
+    "string-hash": "^1.1.3"
   }
 }

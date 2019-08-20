@@ -3,6 +3,9 @@ import PropTypes from 'prop-types';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 import { transparentize } from 'polished';
+import { Link } from 'react-router-dom';
+import { useDispatch } from 'resift';
+import makeMovieFetch from 'fetches/makeMovieFetch';
 
 const width = 288;
 const height = 162;
@@ -43,19 +46,28 @@ const useStyles = makeStyles(theme => ({
 
 function MoviePreview({ className, id, name, imageUrl }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
+
+  const movieFetch = makeMovieFetch(id);
+
+  const handleMouseEnter = () => {
+    dispatch(movieFetch());
+  };
 
   return (
-    <div
-      className={classNames(classes.root, className, {})}
+    <Link
+      className={classNames(classes.root, className)}
+      to={`/movies/${id}`}
       style={{
         background: `url(${imageUrl})`,
         backgroundPosition: 'center',
         backgroundSize: 'cover',
       }}
+      onMouseEnter={handleMouseEnter}
     >
       <div className={classes.backdrop} />
       <div className={classes.name}>{name}</div>
-    </div>
+    </Link>
   );
 }
 

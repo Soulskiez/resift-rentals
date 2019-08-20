@@ -2,6 +2,7 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import AppBar from 'components/AppBar';
 import Categories from 'components/Categories';
+import MovieDrawer from 'components/MovieDrawer';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -25,10 +26,14 @@ function ResiftRentals() {
   const classes = useStyles();
 
   return (
-    <div className={classes.root}>
-      <AppBar className={classes.appBar} />
-      <Categories className={classes.categories} />
-    </div>
+    <>
+      <MovieDrawer />
+
+      <div className={classes.root}>
+        <AppBar className={classes.appBar} />
+        <Categories className={classes.categories} />
+      </div>
+    </>
   );
 }
 

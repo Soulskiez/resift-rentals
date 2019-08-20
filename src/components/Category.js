@@ -11,7 +11,6 @@ const useStyles = makeStyles(theme => ({
     flex: '0 0 auto',
     display: 'flex',
     flexDirection: 'column',
-    // border: '1px solid red',
     padding: theme.spacing(0, 3),
     color: theme.palette.common.white,
   },

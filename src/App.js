@@ -1,25 +1,32 @@
 import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import { createMuiTheme } from '@material-ui/core';
+import { ThemeProvider } from '@material-ui/styles';
+import { ResiftProvider } from 'resift';
+import dataService from './dataService';
+import ResiftRentals from './ResiftRentals';
+
+const theme = createMuiTheme({
+  typography: {
+    fontFamily: "'Source Sans Pro', sans-serif",
+  },
+  palette: {
+    type: 'dark',
+    primary: {
+      main: '#f00',
+    },
+    secondary: {
+      main: '#fff',
+    },
+  },
+});
 
 function App() {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <ResiftProvider dataService={dataService}>
+      <ThemeProvider theme={theme}>
+        <ResiftRentals />
+      </ThemeProvider>
+    </ResiftProvider>
   );
 }
 

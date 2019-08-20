@@ -7,6 +7,7 @@ const makeCategoryFetch = defineFetch({
     namespace: 'category',
     merge: (prev, next) => ({
       ...prev,
+      ...next,
       movies: {
         ...get(prev, ['movies']),
         ...next.movies,

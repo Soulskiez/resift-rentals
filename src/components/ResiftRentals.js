@@ -3,6 +3,7 @@ import { makeStyles } from '@material-ui/styles';
 import AppBar from 'components/AppBar';
 import Categories from 'components/Categories';
 import MovieDrawer from 'components/MovieDrawer';
+import MovieForm from 'components/MovieForm';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -28,6 +29,7 @@ function ResiftRentals() {
   return (
     <>
       <MovieDrawer />
+      <MovieForm />
 
       <div className={classes.root}>
         <AppBar className={classes.appBar} />

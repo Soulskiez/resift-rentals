@@ -6,6 +6,7 @@ import get from 'lodash/get';
 
 function useCurrentMovie() {
   const { match } = useLocation('/movies/:id');
+  const { match: editMatch } = useLocation('/movies/:id/edit');
   const dispatch = useDispatch();
 
   const id = get(match, ['params', 'id']);
@@ -26,7 +27,7 @@ function useCurrentMovie() {
     dispatch(movieFetch());
   }, [status, movieFetch, dispatch]);
 
-  return { movie, status, open: !!match, id };
+  return { movie, status, open: !!match, id, editing: !!editMatch };
 }
 
 export default useCurrentMovie;

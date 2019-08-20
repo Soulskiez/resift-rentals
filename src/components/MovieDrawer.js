@@ -1,6 +1,7 @@
 import React from 'react';
 import { makeStyles } from '@material-ui/styles';
-import { Drawer } from '@material-ui/core';
+import { Drawer, Button } from '@material-ui/core';
+import { Link } from 'react-router-dom';
 import useCurrentMovie from 'helpers/useCurrentMovie';
 import useHistory from 'helpers/useHistory';
 import Loader from 'components/Loader';
@@ -87,6 +88,9 @@ const useStyles = makeStyles(theme => ({
     padding: theme.spacing(1),
     alignSelf: 'flex-start',
   },
+  button: {
+    alignSelf: 'flex-start',
+  },
 }));
 
 function MovieDrawer() {
@@ -104,7 +108,16 @@ function MovieDrawer() {
     <Drawer open={open} onClose={handleClose} anchor="right">
       <Loader className={classes.loader} status={status}>
         {() => {
-          const { name, posterUrl, actors, tomatoScore, synopsis, trailerUrl, mpaaRating } = movie;
+          const {
+            name,
+            posterUrl,
+            actors,
+            tomatoScore,
+            synopsis,
+            trailerUrl,
+            mpaaRating,
+            id,
+          } = movie;
 
           return (
             <>
@@ -155,6 +168,9 @@ function MovieDrawer() {
                   <source src={trailerUrl} type="video/mp4" />
                 </video>
               </div>
+              <Button className={classes.button} component={Link} to={`/movies/${id}/edit`}>
+                Edit
+              </Button>
             </>
           );
         }}

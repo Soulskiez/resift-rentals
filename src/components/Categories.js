@@ -2,6 +2,7 @@ import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 import { useFetch, useDispatch } from 'resift';
+import Loader from 'components/Loader';
 import Category from 'components/Category';
 import categoriesFetch from 'fetches/categoriesFetch';
 
@@ -22,8 +23,6 @@ function Categories({ className }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  // TODO: use `status` to show a loader of some sort
-  // eslint-disable-next-line
   const [categories, status] = useFetch(categoriesFetch);
 
   useEffect(() => {
@@ -35,11 +34,15 @@ function Categories({ className }) {
   }
 
   return (
-    <div className={classNames(classes.root, className)}>
-      {categories.map(category => (
-        <Category className={classes.category} key={category.id} id={category.id} />
-      ))}
-    </div>
+    <Loader status={status} className={classNames(classes.root, className)}>
+      {() => (
+        <>
+          {categories.map(category => (
+            <Category className={classes.category} key={category.id} id={category.id} />
+          ))}
+        </>
+      )}
+    </Loader>
   );
 }
 

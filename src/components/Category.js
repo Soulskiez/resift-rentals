@@ -4,6 +4,7 @@ import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 import { useFetch, useDispatch } from 'resift';
 import MoviePreview from 'components/MoviePreview';
+import Loader from 'components/Loader';
 import makeCategoryFetch from 'fetches/makeCategoryFetch';
 
 const threshold = 32;
@@ -40,8 +41,6 @@ function Category({ id, className }) {
   const [hitScrollEnd, setHitScrollEnd] = useState(false);
   const categoryFetch = makeCategoryFetch(id);
 
-  // TODO: use `status` to show a loader of some sort
-  // eslint-disable-next-line
   const [category, status] = useFetch(categoryFetch);
 
   useEffect(() => {
@@ -74,15 +73,19 @@ function Category({ id, className }) {
   const { name, movies } = category;
 
   return (
-    <div className={classNames(classes.root, className)}>
-      <div className={classes.name}>{name}</div>
-      <div className={classes.movies} onScroll={handleScroll}>
-        {movies.results.map(movie => (
-          <MoviePreview key={movie.id} className={classes.moviePreview} {...movie} />
-        ))}
-        <div className={classes.scrollAnchor} ref={scrollAnchorRef} />
-      </div>
-    </div>
+    <Loader className={classNames(classes.root, className)} status={status}>
+      {() => (
+        <>
+          <div className={classes.name}>{name}</div>
+          <div className={classes.movies} onScroll={handleScroll}>
+            {movies.results.map(movie => (
+              <MoviePreview key={movie.id} className={classes.moviePreview} {...movie} />
+            ))}
+            <div className={classes.scrollAnchor} ref={scrollAnchorRef} />
+          </div>
+        </>
+      )}
+    </Loader>
   );
 }
 

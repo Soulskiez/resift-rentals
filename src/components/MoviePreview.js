@@ -5,7 +5,7 @@ import { makeStyles } from '@material-ui/styles';
 import { transparentize } from 'polished';
 import { Link } from 'react-router-dom';
 import { useDispatch } from 'resift';
-// import makeMovieFetch from 'fetches/makeMovieFetch';
+import makeMovieFetch from 'fetches/makeMovieFetch';
 
 const width = 288;
 const height = 162;
@@ -48,10 +48,10 @@ function MoviePreview({ className, id, name, imageUrl }) {
   const classes = useStyles();
   const dispatch = useDispatch();
 
-  // const movieFetch = makeMovieFetch(id);
+  const movieFetch = makeMovieFetch(id);
 
   const handleMouseEnter = () => {
-    // dispatch(movieFetch());
+    dispatch(movieFetch());
   };
 
   return (

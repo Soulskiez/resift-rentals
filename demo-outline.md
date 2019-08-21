@@ -24,6 +24,7 @@
   - usage of `useFetch` inside `MovieDrawer`
     - a fetch instance (aka just a fetch) is used to pull up information associated its key
     - a fetch instance is used to dispatch a request for that data as well
+  - don't forget: use `useEffect` + `dispatch` to dispatch the request
 
 - `Loader`: a component that uses the status and prevents rendering until the status is normal
 

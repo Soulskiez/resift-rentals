@@ -106,7 +106,7 @@ function MovieDrawer() {
     history.push('/');
   };
 
-  const { match } = useLocation({ path: '/movies/:id', exact: true });
+  const { match } = useLocation({ path: '/movies/:id' });
   const id = get(match, ['params', 'id']);
   const open = !!id;
 

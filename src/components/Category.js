@@ -60,6 +60,8 @@ function Category({ id, className }) {
   const classes = useStyles();
   const scrollAnchorRef = useRef(null);
   const [hitScrollEnd, setHitScrollEnd] = useState(false);
+  const status = 0;
+  const dispatch = () => {};
 
   // ???
   const category = {};
@@ -92,9 +94,6 @@ function Category({ id, className }) {
   }, [hitScrollEnd, dispatch]);
 
   return null;
-
-  const status = 0;
-  const dispatch = () => {};
 
   return (
     <Loader

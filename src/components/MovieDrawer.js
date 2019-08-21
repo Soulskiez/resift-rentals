@@ -1,10 +1,14 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Drawer, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
 import useHistory from 'helpers/useHistory';
 import Loader from 'components/Loader';
 import { scale } from 'chroma-js';
+import useLocation from 'helpers/useLocation';
+import { useFetch, useDispatch } from 'resift';
+import get from 'lodash/get';
+import makeMovieFetch from 'fetches/makeMovieFetch';
 
 const tomatoColor = scale(['#FF342C', '#70D44B']).domain([0, 100]);
 
@@ -96,17 +100,24 @@ const useStyles = makeStyles(theme => ({
 function MovieDrawer() {
   const history = useHistory();
   const classes = useStyles();
+  const dispatch = useDispatch();
 
   const handleClose = () => {
     history.push('/');
   };
 
-  // ???
-  const movie = {};
+  const { match } = useLocation({ path: '/movies/:id', exact: true });
+  const id = get(match, ['params', 'id']);
+  const open = !!id;
 
-  return null;
-  const open = true;
-  const status = 0;
+  const movieFetch = id && makeMovieFetch(id);
+  const [movie, status] = useFetch(movieFetch);
+
+  useEffect(() => {
+    if (!movieFetch) return;
+
+    dispatch(movieFetch());
+  }, [movieFetch, dispatch]);
 
   return (
     <Drawer open={open} onClose={handleClose} anchor="right">

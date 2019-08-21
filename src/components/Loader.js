@@ -36,7 +36,7 @@ export const styles = theme => {
       zIndex: theme.zIndex.tooltip,
     },
     overlayTransparent: {
-      backgroundColor: 'rgba(255, 255, 255, 0.2)',
+      backgroundColor: 'rgba(0, 0, 0, 0.2)',
     },
     appear: {
       opacity: 0,

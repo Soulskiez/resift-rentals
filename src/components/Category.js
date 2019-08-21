@@ -33,6 +33,9 @@ const useStyles = makeStyles(theme => ({
     overflow: 'auto',
     margin: theme.spacing(0, -3),
     alignItems: 'center',
+    '&::-webkit-scrollbar': {
+      display: 'none',
+    },
   },
   moviePreview: {
     flex: '0 0 auto',

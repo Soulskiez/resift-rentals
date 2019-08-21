@@ -8,13 +8,9 @@ import {
   TextField,
 } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { useDispatch } from 'resift';
-import { useSnackbar } from 'notistack';
 import get from 'lodash/get';
 import Loader from 'components/Loader';
 import useHistory from 'helpers/useHistory';
-import useCurrentMovie from 'helpers/useCurrentMovie';
-import makeUpdateMovieFetch from 'fetches/makeUpdateMovieFetch';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -30,11 +26,11 @@ const useStyles = makeStyles(theme => ({
 function MovieForm() {
   const classes = useStyles();
   const history = useHistory();
-  const dispatch = useDispatch();
-  const { enqueueSnackbar } = useSnackbar();
-  const { editing, movie, status, id } = useCurrentMovie();
 
-  const updateMovieFetch = id && makeUpdateMovieFetch(id);
+  // ???
+  const movie = {};
+
+  const id = movie;
 
   const handleClose = () => {
     history.push(`/movies/${id}`);
@@ -53,12 +49,15 @@ function MovieForm() {
   };
   const handleSave = async () => {
     const updatedMovie = { synopsis };
-    if (!updateMovieFetch) return;
 
-    await dispatch(updateMovieFetch(updatedMovie));
-    history.push(`/movies/${id}`);
-    enqueueSnackbar('Updated movie!', { variant: 'success' });
+    // now what???
   };
+
+  return null;
+
+  // ???
+  const editing = false;
+  const status = 0;
 
   return (
     <Dialog open={editing} onClose={handleClose} maxWidth="sm" fullWidth>

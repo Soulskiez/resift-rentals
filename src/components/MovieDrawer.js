@@ -2,7 +2,6 @@ import React from 'react';
 import { makeStyles } from '@material-ui/styles';
 import { Drawer, Button } from '@material-ui/core';
 import { Link } from 'react-router-dom';
-import useCurrentMovie from 'helpers/useCurrentMovie';
 import useHistory from 'helpers/useHistory';
 import Loader from 'components/Loader';
 import { scale } from 'chroma-js';
@@ -95,7 +94,6 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function MovieDrawer() {
-  const current = useCurrentMovie();
   const history = useHistory();
   const classes = useStyles();
 
@@ -103,7 +101,12 @@ function MovieDrawer() {
     history.push('/');
   };
 
-  const { status, movie, open } = current;
+  // ???
+  const movie = {};
+
+  return null;
+  const open = true;
+  const status = 0;
 
   return (
     <Drawer open={open} onClose={handleClose} anchor="right">

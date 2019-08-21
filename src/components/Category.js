@@ -4,10 +4,9 @@ import classNames from 'classnames';
 import range from 'lodash/range';
 import { CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { useFetch, useDispatch, isNormal } from 'resift';
+import { isNormal } from 'resift';
 import MoviePreview from 'components/MoviePreview';
 import Loader from 'components/Loader';
-import makeCategoryFetch from 'fetches/makeCategoryFetch';
 import { transparentize } from 'polished';
 
 const threshold = 32;
@@ -58,17 +57,12 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Category({ id, className }) {
-  const dispatch = useDispatch();
   const classes = useStyles();
   const scrollAnchorRef = useRef(null);
   const [hitScrollEnd, setHitScrollEnd] = useState(false);
-  const categoryFetch = makeCategoryFetch(id);
 
-  const [category, status] = useFetch(categoryFetch);
-
-  useEffect(() => {
-    dispatch(categoryFetch());
-  }, [categoryFetch, dispatch]);
+  // ???
+  const category = {};
 
   const handleScroll = () => {
     const scrollAnchor = scrollAnchorRef.current;
@@ -92,10 +86,15 @@ function Category({ id, className }) {
     const { page, total, pageSize } = category.movies.pagination;
     if (page * pageSize > total) return;
 
-    dispatch(categoryFetch(page + 1)).then(() => {
-      handleScroll();
-    });
-  }, [hitScrollEnd, dispatch, categoryFetch]);
+    // dispatch(categoryFetch(page + 1)).then(() => {
+    //   handleScroll();
+    // });
+  }, [hitScrollEnd, dispatch]);
+
+  return null;
+
+  const status = 0;
+  const dispatch = () => {};
 
   return (
     <Loader

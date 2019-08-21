@@ -8,6 +8,8 @@ import { isNormal } from 'resift';
 import MoviePreview from 'components/MoviePreview';
 import Loader from 'components/Loader';
 import { transparentize } from 'polished';
+import makeCategoryFetch from 'fetches/makeCategoryFetch';
+import { useFetch, useDispatch } from 'resift';
 
 const threshold = 32;
 const width = 288;
@@ -58,13 +60,13 @@ const useStyles = makeStyles(theme => ({
 
 function Category({ id, className }) {
   const classes = useStyles();
+  const dispatch = useDispatch();
   const scrollAnchorRef = useRef(null);
   const [hitScrollEnd, setHitScrollEnd] = useState(false);
 
-  // ???
-  const category = {};
-  const status = 0;
-  const dispatch = () => {};
+  const categoryFetch = makeCategoryFetch(id);
+
+  const [category, status] = useFetch(categoryFetch);
 
   const handleScroll = () => {
     const scrollAnchor = scrollAnchorRef.current;
@@ -81,19 +83,21 @@ function Category({ id, className }) {
   }, [category]);
 
   useEffect(() => {
-    const category = categoryRef.current;
-    if (!hitScrollEnd) return;
-    if (!category) return;
+    dispatch(categoryFetch());
+  }, [dispatch, categoryFetch]);
 
-    const { page, total, pageSize } = category.movies.pagination;
-    if (page * pageSize > total) return;
+  // useEffect(() => {
+  //   const category = categoryRef.current;
+  //   if (!hitScrollEnd) return;
+  //   if (!category) return;
 
-    // dispatch(categoryFetch(page + 1)).then(() => {
-    //   handleScroll();
-    // });
-  }, [hitScrollEnd, dispatch]);
+  //   const { page, total, pageSize } = category.movies.pagination;
+  //   if (page * pageSize > total) return;
 
-  return null;
+  //   // dispatch(categoryFetch(page + 1)).then(() => {
+  //   //   handleScroll();
+  //   // });
+  // }, [hitScrollEnd, dispatch]);
 
   return (
     <Loader

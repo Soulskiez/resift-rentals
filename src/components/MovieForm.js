@@ -11,10 +11,10 @@ import { makeStyles } from '@material-ui/styles';
 import get from 'lodash/get';
 import Loader from 'components/Loader';
 import useHistory from 'helpers/useHistory';
-import useLocation from 'helpers/useLocation';
 import makeUpdateMovieFetch from 'fetches/makeUpdateMovieFetch';
-import { useFetch, useDispatch, NORMAL } from 'resift';
+import { useDispatch, NORMAL } from 'resift';
 import { useSnackbar } from 'notistack';
+import useCurrentMovie from 'helpers/useCurrentMovie';
 
 const useStyles = makeStyles(theme => ({
   root: {},
@@ -33,13 +33,8 @@ function MovieForm() {
   const dispatch = useDispatch();
   const { enqueueSnackbar } = useSnackbar();
 
-  const { match } = useLocation({ path: '/movies/:id/edit' });
-  const open = !!match;
-
-  const id = get(match, ['params', 'id']);
+  const { editing, status, movie, id } = useCurrentMovie();
   const updateMovieFetch = id && makeUpdateMovieFetch(id);
-
-  const [movie, status] = useFetch(updateMovieFetch);
 
   const handleClose = () => {
     history.push(`/movies/${id}`);
@@ -58,6 +53,7 @@ function MovieForm() {
   };
   const handleSave = async () => {
     const updatedMovie = { synopsis };
+    if (!updateMovieFetch) return;
 
     await dispatch(updateMovieFetch(updatedMovie));
     enqueueSnackbar('Updated movie!', { variant: 'success' });
@@ -65,7 +61,7 @@ function MovieForm() {
   };
 
   return (
-    <Dialog open={open} onClose={handleClose} maxWidth="sm" fullWidth>
+    <Dialog open={editing} onClose={handleClose} maxWidth="sm" fullWidth>
       <Loader status={status | NORMAL}>
         {() => {
           return (

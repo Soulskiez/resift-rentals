@@ -1,8 +1,10 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 import Loader from 'components/Loader';
 import Category from 'components/Category';
+import categoriesFetch from 'fetches/categoriesFetch';
+import { useFetch, useDispatch } from 'resift';
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -18,14 +20,14 @@ const useStyles = makeStyles(theme => ({
 }));
 
 function Categories({ className }) {
+  const dispatch = useDispatch();
   const classes = useStyles();
 
-  // ???
-  const categories = {};
+  const [categories, status] = useFetch(categoriesFetch);
 
-  return null;
-
-  const status = 0;
+  useEffect(() => {
+    dispatch(categoriesFetch());
+  }, [dispatch]);
 
   return (
     <Loader status={status} className={classNames(classes.root, className)}>

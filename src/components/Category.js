@@ -63,6 +63,8 @@ function Category({ id, className }) {
 
   // ???
   const category = {};
+  const status = 0;
+  const dispatch = () => {};
 
   const handleScroll = () => {
     const scrollAnchor = scrollAnchorRef.current;
@@ -92,9 +94,6 @@ function Category({ id, className }) {
   }, [hitScrollEnd, dispatch]);
 
   return null;
-
-  const status = 0;
-  const dispatch = () => {};
 
   return (
     <Loader

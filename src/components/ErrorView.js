@@ -4,7 +4,9 @@ import classNames from 'classnames';
 import { makeStyles } from '@material-ui/styles';
 
 const useStyles = makeStyles(theme => ({
-  root: {},
+  root: {
+    color: theme.palette.common.white,
+  },
   title: {
     ...theme.typography.h4,
     fontWeight: 'bold',

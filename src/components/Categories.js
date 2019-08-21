@@ -29,16 +29,12 @@ function Categories({ className }) {
     dispatch(categoriesFetch());
   }, [dispatch]);
 
-  if (!categories) {
-    return null;
-  }
-
   return (
     <Loader status={status} className={classNames(classes.root, className)}>
       {() => (
         <>
-          {categories.map(category => (
-            <Category className={classes.category} key={category.id} id={category.id} />
+          {categories.map((category, i) => (
+            <Category className={classes.category} key={`${category.id}-${i}`} id={category.id} />
           ))}
         </>
       )}

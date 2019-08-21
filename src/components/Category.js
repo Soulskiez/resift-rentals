@@ -1,13 +1,18 @@
-import React, { useEffect, useRef, useState } from 'react';
+import React, { useEffect, useRef, useState, useLayoutEffect } from 'react';
 import PropTypes from 'prop-types';
 import classNames from 'classnames';
+import range from 'lodash/range';
+import { CircularProgress } from '@material-ui/core';
 import { makeStyles } from '@material-ui/styles';
-import { useFetch, useDispatch } from 'resift';
+import { useFetch, useDispatch, isNormal } from 'resift';
 import MoviePreview from 'components/MoviePreview';
 import Loader from 'components/Loader';
 import makeCategoryFetch from 'fetches/makeCategoryFetch';
+import { transparentize } from 'polished';
 
 const threshold = 32;
+const width = 288;
+const height = 162;
 
 const useStyles = makeStyles(theme => ({
   root: {
@@ -16,6 +21,7 @@ const useStyles = makeStyles(theme => ({
     flexDirection: 'column',
     padding: theme.spacing(0, 3),
     color: theme.palette.common.white,
+    minHeight: height,
   },
   name: {
     ...theme.typography.h6,
@@ -32,6 +38,20 @@ const useStyles = makeStyles(theme => ({
     flex: '0 0 auto',
     marginRight: theme.spacing(1),
   },
+  skeletonLoader: {
+    height,
+    width: '100%',
+    display: 'flex',
+    maxWidth: '100%',
+    overflow: 'hidden',
+  },
+  skeletonMovie: {
+    flex: '0 0 auto',
+    marginRight: theme.spacing(2),
+    backgroundColor: transparentize(0.8, theme.palette.common.black),
+    height,
+    width,
+  },
 }));
 
 function Category({ id, className }) {
@@ -47,16 +67,6 @@ function Category({ id, className }) {
     dispatch(categoryFetch());
   }, [categoryFetch, dispatch]);
 
-  useEffect(() => {
-    if (!hitScrollEnd) return;
-    if (!category) return;
-
-    const { page, total, pageSize } = category.movies.pagination;
-    if (page * pageSize > total) return;
-
-    dispatch(categoryFetch(page + 1));
-  }, [hitScrollEnd, dispatch, categoryFetch, category]);
-
   const handleScroll = () => {
     const scrollAnchor = scrollAnchorRef.current;
     if (!scrollAnchor) return;
@@ -66,25 +76,55 @@ function Category({ id, className }) {
     setHitScrollEnd(width - left + threshold > 0);
   };
 
-  if (!category) {
-    return null;
-  }
+  const categoryRef = useRef(category);
+  useLayoutEffect(() => {
+    categoryRef.current = category;
+  }, [category]);
 
-  const { name, movies } = category;
+  useEffect(() => {
+    const category = categoryRef.current;
+    if (!hitScrollEnd) return;
+    if (!category) return;
+
+    const { page, total, pageSize } = category.movies.pagination;
+    if (page * pageSize > total) return;
+
+    dispatch(categoryFetch(page + 1)).then(() => {
+      handleScroll();
+    });
+  }, [hitScrollEnd, dispatch, categoryFetch]);
 
   return (
-    <Loader className={classNames(classes.root, className)} status={status}>
-      {() => (
-        <>
-          <div className={classes.name}>{name}</div>
-          <div className={classes.movies} onScroll={handleScroll}>
-            {movies.results.map(movie => (
-              <MoviePreview key={movie.id} className={classes.moviePreview} {...movie} />
+    <Loader
+      className={classNames(classes.root, className)}
+      status={status}
+      isLoadingView={
+        isNormal(status) ? (
+          <CircularProgress />
+        ) : (
+          <div className={classes.skeletonLoader}>
+            {range(10).map(i => (
+              <div className={classes.skeletonMovie} />
             ))}
-            <div className={classes.scrollAnchor} ref={scrollAnchorRef} />
           </div>
-        </>
-      )}
+        )
+      }
+    >
+      {() => {
+        const { name, movies } = category;
+
+        return (
+          <>
+            <div className={classes.name}>{name}</div>
+            <div className={classes.movies} onScroll={handleScroll}>
+              {movies.results.map(movie => (
+                <MoviePreview key={movie.id} className={classes.moviePreview} {...movie} />
+              ))}
+              <div className={classes.scrollAnchor} ref={scrollAnchorRef} />
+            </div>
+          </>
+        );
+      }}
     </Loader>
   );
 }

@@ -19,7 +19,9 @@ function statusIsEqual(a, b) {
 
 export const styles = theme => {
   return {
-    root: {},
+    root: {
+      position: 'relative',
+    },
     overlay: {
       backgroundColor: 'none',
       position: 'absolute',
@@ -31,10 +33,10 @@ export const styles = theme => {
       justifyContent: 'center',
       alignItems: 'center',
       transition: `opacity ${TRANSITION_TIMING}ms`,
-      zIndex: theme.zIndex.loader,
+      zIndex: theme.zIndex.tooltip,
     },
     overlayTransparent: {
-      backgroundColor: 'rgba(255, 255, 255, 0.7)',
+      backgroundColor: 'rgba(255, 255, 255, 0.2)',
     },
     appear: {
       opacity: 0,

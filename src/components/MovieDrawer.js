@@ -16,6 +16,7 @@ const useStyles = makeStyles(theme => ({
     display: 'flex',
     flexDirection: 'column',
     padding: theme.spacing(3),
+    flex: '1 0 auto',
   },
   headerRow: {
     display: 'flex',

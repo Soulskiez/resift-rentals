@@ -2,6 +2,7 @@ import { defineFetch } from 'resift';
 
 const makeMovieFetch = defineFetch({
   displayName: 'Get Movie',
+  share: { namespace: 'movies' },
   make: id => ({
     key: [id],
     request: () => ({ http }) =>

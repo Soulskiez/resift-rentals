@@ -83,21 +83,21 @@ function Category({ id, className }) {
   }, [category]);
 
   useEffect(() => {
-    dispatch(categoryFetch());
+    dispatch(categoryFetch(0));
   }, [dispatch, categoryFetch]);
 
-  // useEffect(() => {
-  //   const category = categoryRef.current;
-  //   if (!hitScrollEnd) return;
-  //   if (!category) return;
+  useEffect(() => {
+    const category = categoryRef.current;
+    if (!hitScrollEnd) return;
+    if (!category) return;
 
-  //   const { page, total, pageSize } = category.movies.pagination;
-  //   if (page * pageSize > total) return;
+    const { page, total, pageSize } = category.movies.pagination;
+    if (page * pageSize > total) return;
 
-  //   // dispatch(categoryFetch(page + 1)).then(() => {
-  //   //   handleScroll();
-  //   // });
-  // }, [hitScrollEnd, dispatch]);
+    dispatch(categoryFetch(page + 1)).then(() => {
+      handleScroll();
+    });
+  }, [hitScrollEnd, dispatch, categoryFetch]);
 
   return (
     <Loader
